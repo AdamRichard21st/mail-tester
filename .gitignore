@@ -1,4 +1,5 @@
 /resources/views/*
+!/resources/views/.gitkeep
 /vendor
 /.idea
 Homestead.json
