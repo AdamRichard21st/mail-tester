@@ -18,18 +18,55 @@ use Illuminate\Support\Facades\Mail;
 $router->get('/', function () use ($router)
 {
     return [
-        'message' => 'Send a GET request to /{view-file-name} in order to send an email with its content.',
-        'observations' => 'A valid view file must to be present inside /resource/views/ project folder.',
-        'examples' => [
-            env('APP_URL').'/prg-afiliados-cruzeiro',
-            env('APP_URL').'/peça-de-teste',
-            env('APP_URL').'/peça-abril-23-2021',
+        'usage' => [
+            [
+                'route' => '/preview/{view-file-name}',
+                'description' => 'Send a GET request to /preview/{view-file-name} to render its content.',
+                'examples' => [
+                    env('APP_URL').'/preview/prg-afiliados-cruzeiro',
+                    env('APP_URL').'/preview/peça-de-teste',
+                    env('APP_URL').'/preview/peça-abril-23-2021',
+                ],
+            ],
+            [
+                'route' => '/send/{view-file-name}',
+                'description' => 'Send a GET request to /send/{view-file-name} in order to send an email with its content.',
+                'examples' => [
+                    env('APP_URL').'/send/prg-afiliados-cruzeiro',
+                    env('APP_URL').'/send/peça-de-teste',
+                    env('APP_URL').'/send/peça-abril-23-2021',
+                ],
+            ]
+            
         ],
+        'observations' => 'A valid view file must to be present inside /resource/views/ project folder.',
     ];
 });
 
 
-$router->get('/{view}', function ($view) use ($router)
+$router->get('/preview/{view}', function ($view) use ($router)
+{
+    if ( !$view )
+    {
+        return [
+            'status' => 'failed',
+            'message' => 'Please, send a view file name as path parameter. Example: '. env('APP_URL').'/preview/view-name',
+        ];
+    }
+
+    if ( !view()->exists($view) )
+    {
+        return [
+            'status' => 'failed',
+            'message' => "View /resources/views/$view.[php|html] does not exist.",
+        ];
+    }
+
+    return view($view);
+});
+
+
+$router->get('/send/{view}', function ($view) use ($router)
 {
     if ( !$view )
     {
@@ -43,7 +80,7 @@ $router->get('/{view}', function ($view) use ($router)
     {
         return [
             'status' => 'failed',
-            'message' => "View $view does not exists.",
+            'message' => "View /resources/views/$view.[php|html] does not exist.",
         ];
     }
 
