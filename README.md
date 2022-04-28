@@ -6,6 +6,7 @@ This is a small tool built in [Laravel Lumen](https://lumen.laravel.com/docs) to
 # How to install
 
 * Clone this repository
+* Run `composer install` on project root directory
 * Create the `.env` file from `.env.example` on project root folder
 * Make sure to set the `APP_URL`, `MAIL_USERNAME` and `MAIL_PASSWORD` environment variables
 * Serve the application with the command `php -S localhost:8000 -t public` (not necessary if using [Laravel Valet](https://laravel.com/docs/7.x/valet) or equivalent)
